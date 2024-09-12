@@ -19,10 +19,10 @@ engine = create_engine(url=uri)
 SessionLocal = sessionmaker(autoflush=False, bind=engine)
 Base = declarative_base()
 
+
 def get_db():
     db = SessionLocal()
     try:
         yield
     finally:
         db.close()
-        
