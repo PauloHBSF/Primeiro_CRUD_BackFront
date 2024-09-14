@@ -20,44 +20,18 @@ if 'atualizar_produto' not in st.session_state:
     st.session_state.atualizar_produto = False
 
 
-def click_novo():
-    st.session_state.novo_produto = True
-    st.session_state.listar_produtos = False
-    st.session_state.listar_produto = False
-    st.session_state.deletar_produto = False
-    st.session_state.atualizar_produto = False
+session_dict = {
+    'novo_produto': st.session_state.novo_produto,
+    'listar_produtos': st.session_state.listar_produtos,
+    'listar_produto': st.session_state.listar_produto,
+    'deletar_produto': st.session_state.deletar_produto,
+    'atualizar_produto': st.session_state.atualizar_produto
+}
 
-
-def click_produtos():
-    st.session_state.novo_produto = False
-    st.session_state.listar_produtos = True
-    st.session_state.listar_produto = False
-    st.session_state.deletar_produto = False
-    st.session_state.atualizar_produto = False
-
-
-def click_produto():
-    st.session_state.novo_produto = False
-    st.session_state.listar_produtos = False
-    st.session_state.listar_produto = True
-    st.session_state.deletar_produto = False
-    st.session_state.atualizar_produto = False
-
-
-def click_deletar():
-    st.session_state.novo_produto = False
-    st.session_state.listar_produtos = False
-    st.session_state.listar_produto = False
-    st.session_state.deletar_produto = True
-    st.session_state.atualizar_produto = False
-
-
-def click_atualizar():
-    st.session_state.novo_produto = False
-    st.session_state.listar_produtos = False
-    st.session_state.listar_produto = False
-    st.session_state.deletar_produto = False
-    st.session_state.atualizar_produto = True
+def change_state(state:str):
+    for key in session_dict.keys():
+        st.session_state[key] = False
+    st.session_state[state] = True
 
 
 def show_response_message(response):
@@ -83,19 +57,19 @@ st.title("Cadastro de Produtos")
 c1, c2, c3, c4, c5 = st.columns(spec=5, vertical_alignment='center', gap='small')
 
 with c1:
-    st.button("Inserir Produto", on_click=click_novo)
+    st.button("Inserir Produto", on_click=change_state, args=['novo_produto'])
 
 with c2:
-    st.button("Visualizar todos os Produtos", on_click=click_produtos)
+    st.button("Visualizar todos os Produtos", on_click=change_state, args=['listar_produtos'])
 
 with c3:
-    st.button("Visualizar um Produto", on_click=click_produto)
+    st.button("Visualizar um Produto", on_click=change_state, args=['listar_produto'])
 
 with c4:
-    st.button("Deletar um Produto", on_click=click_deletar)
+    st.button("Deletar um Produto", on_click=change_state, args=['deletar_produto'])
 
 with c5:
-    st.button("Atualizar um Produto", on_click=click_atualizar)
+    st.button("Atualizar um Produto", on_click=change_state, args=['atualizar_produto'])
 
 
 if st.session_state.novo_produto:
