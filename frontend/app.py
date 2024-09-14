@@ -104,22 +104,27 @@ if st.session_state.listar_produtos:
         response = requests.get("http://backend:8000/products/")
         if response.status_code == 200:
             product = response.json()
-            df = pd.DataFrame(product)
-
-            df = df[
-                [
-                    "id",
-                    "name",
-                    "description",
-                    "price",
-                    "category",
-                    "supplier_email",
-                    "created_at",
+            
+            if product == []:
+                st.warning("Ainda não há produtos cadastrados.")
+            
+            else:
+                df = pd.DataFrame(product)
+                
+                df = df[
+                    [
+                        "id",
+                        "name",
+                        "description",
+                        "price",
+                        "category",
+                        "supplier_email",
+                        "created_at",
+                    ]
                 ]
-            ]
 
-            # Exibe o DataFrame sem o índice
-            st.write(df.to_html(index=False, justify='center'), unsafe_allow_html=True)
+                # Exibe o DataFrame sem o índice
+                st.write(df.to_html(index=False, justify='center'), unsafe_allow_html=True)
         else:
             show_response_message(response)
 
